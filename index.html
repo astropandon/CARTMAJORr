@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Générateur de Cartes de Visite Professionnelles</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        .carte-logo
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -98,10 +98,6 @@
             background: #f7fafc;
             cursor: pointer;
             font-family: inherit;
-        }
-
-        .logo-upload {
-            margin-top: 20px;
         }
 
         .carte-visite {
@@ -212,13 +208,9 @@
 
         .carte-logo {
             width: 90px;
-            height: 90px;
+            height: auto; /* Permettre au logo de garder ses proportions */
             object-fit: contain;
             opacity: 0.8;
-            border-radius: 8px;
-            background: #f7fafc;
-            padding: 8px;
-            border: 1px solid #e2e8f0;
         }
 
         .ligne-elegante {
@@ -251,10 +243,6 @@
             box-shadow: 0 8px 25px rgba(43, 108, 176, 0.4);
         }
 
-        .btn-telecharger:active {
-            transform: translateY(0);
-        }
-
         .preview-label {
             font-size: 18px;
             font-weight: 600;
@@ -263,60 +251,27 @@
             text-align: center;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .container {
                 grid-template-columns: 1fr;
-                gap: 30px;
+                gap: 40px;
             }
-
-            .carte-visite {
-                width: 380px;
-                height: 240px;
-                padding: 25px;
-            }
-
-            .carte-nom {
-                font-size: 22px;
-            }
-
-            .carte-photo {
-                width: 70px;
-                height: 70px;
-            }
-
-            .form-section {
-                padding: 30px 20px;
-            }
-
-            h1 {
-                font-size: 1.9em;
+            .preview-section {
+                order: -1; /* Mettre l'aperçu en haut sur mobile */
             }
         }
 
         @media (max-width: 480px) {
             .carte-visite {
-                width: 320px;
-                height: 200px;
+                width: 100%;
+                max-width: 350px; /* Limite la largeur sur les très petits écrans */
+                height: auto; /* Hauteur automatique pour s'adapter au contenu */
                 padding: 20px;
             }
-
-            .carte-nom {
-                font-size: 20px;
-            }
-
-            .carte-photo {
-                width: 60px;
-                height: 60px;
-            }
-
-            .contact-item {
-                font-size: 12px;
-            }
-
-            .carte-logo {
-                width: 45px;
-                height: 45px;
-            }
+            .carte-nom { font-size: 20px; }
+            .carte-photo { width: 60px; height: 60px; }
+            .contact-item { font-size: 12px; }
+            .carte-logo { width: 70px; }
         }
     </style>
 </head>
@@ -354,8 +309,12 @@
                 <label for="photo">Photo de profil</label>
                 <input type="file" id="photo" accept="image/*">
             </div>
-
             
+             <div class="form-group">
+                <label for="logo-input">Votre Logo</label>
+                <input type="file" id="logo-input" accept="image/*">
+            </div>
+
         </div>
 
         <div class="preview-section">
@@ -373,30 +332,23 @@
 
                 <div class="carte-contact">
                     <div class="contact-item">
-                        <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
-                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
-                        </svg>
+                        <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
                         <span id="previewEmail">nom@entreprise.com</span>
                     </div>
 
                     <div class="contact-item">
-                        <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
-                        </svg>
+                        <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
                         <span id="previewTelephone">+212 X XX XX XX XX</span>
                     </div>
 
                     <div class="contact-item">
-                        <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
-                        </svg>
+                        <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/></svg>
                         <span id="previewAdresse">Ville, Pays</span>
                     </div>
                 </div>
 
                 <div class="carte-footer">
-                    <img class="carte-logo" id="previewLogo" src="logo2.png" alt="Logo">
+                    <img class="carte-logo" id="previewLogo" src="" alt="">
                 </div>
             </div>
 
@@ -414,7 +366,7 @@
         const telephoneInput = document.getElementById('telephone');
         const adresseInput = document.getElementById('adresse');
         const photoInput = document.getElementById('photo');
-        const logoInput = document.getElementById('logo');
+        const logoInput = document.getElementById('logo-input'); // Corrigé pour pointer vers le bon ID
 
         // Éléments de prévisualisation
         const previewNom = document.getElementById('previewNom');
@@ -429,91 +381,59 @@
         nomInput.addEventListener('input', (e) => {
             previewNom.textContent = e.target.value || 'Nom Prénom';
         });
-
         titreInput.addEventListener('input', (e) => {
             previewTitre.textContent = e.target.value || 'Titre Professionnel';
         });
-
         emailInput.addEventListener('input', (e) => {
             previewEmail.textContent = e.target.value || 'nom@entreprise.com';
         });
-
         telephoneInput.addEventListener('input', (e) => {
             previewTelephone.textContent = e.target.value || '+212 X XX XX XX XX';
         });
-
         adresseInput.addEventListener('input', (e) => {
             previewAdresse.textContent = e.target.value || 'Ville, Pays';
         });
 
-        // Gestion de l'upload de photo
-        photoInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    previewPhoto.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Gestion de l'upload du logo
-        logoInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    previewLogo.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Exemple avec les données fournies
-        window.addEventListener('load', () => {
-            nomInput.value = '';
-            titreInput.value = 'Consultant Professionnel';
-            emailInput.value = 'exemple@gmail.com';
-            telephoneInput.value = '+212 xxxxxxxx';
-            adresseInput.value = '';
-
-            // Mettre à jour la prévisualisation
-            previewNom.textContent = 'Votre Prenom';
-            previewTitre.textContent = 'Designer';
-            previewEmail.textContent = 'exemple@gmail.com';
-            previewTelephone.textContent = '+212 xxxxxxxx';
-            previewAdresse.textContent = 'ville';
-        });
+        // Fonction générique pour la mise à jour d'image
+        function updateImage(inputElement, previewElement) {
+            inputElement.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        previewElement.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        updateImage(photoInput, previewPhoto);
+        updateImage(logoInput, previewLogo);
 
         // Fonction de téléchargement
         function telechargerCarte() {
             const carte = document.getElementById('carteVisite');
             
-            // Utiliser html2canvas pour convertir en image
-            html2canvas(carte, {
-                width: 450,
-                height: 280,
-                scale: 2,
-                backgroundColor: null,
-                useCORS: true,
-                allowTaint: true,
-                logging: false
-            }).then(canvas => {
+            // Options pour html2canvas pour une meilleure qualité
+            const options = {
+                // On ne définit PAS width et height pour que html2canvas utilise la taille réelle de l'élément
+                scale: 3, // Échelle plus élevée pour une image très nette
+                useCORS: true, // Nécessaire si les images viennent d'autres domaines
+                backgroundColor: '#ffffff' // Définir un fond blanc explicitement
+            };
+            
+            html2canvas(carte, options).then(canvas => {
                 // Créer un lien de téléchargement
                 const link = document.createElement('a');
                 link.download = `carte-visite-${previewNom.textContent.replace(/\s+/g, '-').toLowerCase()}.png`;
-                link.href = canvas.toDataURL('image/png', 1.0);
+                link.href = canvas.toDataURL('image/png', 1.0); // Qualité maximale
                 link.click();
             }).catch(err => {
-                console.log('Erreur lors de la génération:', err);
-                // Alternative simple si html2canvas n'est pas disponible
-                alert('Pour télécharger l\'image, veuillez faire un clic droit sur la carte et sélectionner "Enregistrer l\'image sous..."');
+                console.error('Erreur lors de la génération de l\'image:', err);
+                alert('Désolé, une erreur est survenue lors de la création de l\'image.');
             });
         }
     </script>
-
-    <!-- Inclure html2canvas depuis CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>
