@@ -1,87 +1,519 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créateur de Cartes de Visite</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <title>Générateur de Cartes de Visite Professionnelles</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .carte-logo
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding: 20px;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .form-section {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
+        }
+
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            position: sticky;
+            top: 20px;
+        }
+
+        h1 {
+            color: #1a202c;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.2em;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 500;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f7fafc;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .logo-upload {
+            margin-top: 20px;
+        }
+
+        .carte-visite {
+            width: 450px;
+            height: 280px;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            color: #2d3748;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            font-family: 'Segoe UI', sans-serif;
+            border: 2px solid #e2e8f0;
+        }
+
+        .carte-visite::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, rgba(59, 130, 246, 0.05), transparent);
+            border-radius: 0 16px 0 100%;
+        }
+
+        .carte-visite::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            background: rgba(59, 130, 246, 0.03);
+            border-radius: 50%;
+        }
+
+        .carte-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .carte-info {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .carte-nom {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+            color: #1a202c;
+        }
+
+        .carte-titre {
+            font-size: 15px;
+            opacity: 0.7;
+            margin-bottom: 25px;
+            font-weight: 400;
+            color: #4a5568;
+        }
+
+        .carte-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid #e2e8f0;
+            background: #f7fafc;
+        }
+
+        .carte-contact {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 13px;
+            font-weight: 400;
+            color: #4a5568;
+        }
+
+        .contact-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+            opacity: 0.7;
+            flex-shrink: 0;
+            color: #3182ce;
+        }
+
+        .carte-footer {
+            position: absolute;
+            bottom: 20px;
+            right: 25px;
+            z-index: 2;
+        }
+
+        .carte-logo {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            opacity: 0.8;
+            border-radius: 8px;
+            background: #f7fafc;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .ligne-elegante {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #3182ce, transparent);
+            margin: 15px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-telecharger {
+            background: linear-gradient(135deg, #2b6cb0 0%, #3182ce 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(43, 108, 176, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-telecharger:hover {
+            background: linear-gradient(135deg, #3182ce 0%, #4299e1 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(43, 108, 176, 0.4);
+        }
+
+        .btn-telecharger:active {
+            transform: translateY(0);
+        }
+
+        .preview-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .carte-visite {
+                width: 380px;
+                height: 240px;
+                padding: 25px;
+            }
+
+            .carte-nom {
+                font-size: 22px;
+            }
+
+            .carte-photo {
+                width: 70px;
+                height: 70px;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carte-visite {
+                width: 320px;
+                height: 200px;
+                padding: 20px;
+            }
+
+            .carte-nom {
+                font-size: 20px;
+            }
+
+            .carte-photo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .contact-item {
+                font-size: 12px;
+            }
+
+            .carte-logo {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="form-section">
+            <h1>Créateur de Carte de Visite</h1>
+            
+            <div class="form-group">
+                <label for="nom">Nom complet</label>
+                <input type="text" id="nom" placeholder="Entrez votre nom complet">
+            </div>
 
-    <div class="main-container">
-        <div class="form-container">
-            <h2>Créez votre carte de visite</h2>
-            <form id="cardForm">
-                <label for="nameInput">Nom complet :</label>
-                <input type="text" id="nameInput" placeholder="Entrez votre nom ici">
+            <div class="form-group">
+                <label for="titre">Titre/Profession</label>
+                <input type="text" id="titre" placeholder="Ex: Directeur Commercial">
+            </div>
 
-                <label for="titleInput">Titre/Profession :</label>
-                <input type="text" id="titleInput" placeholder="Ex: Designer, Développeur Web">
+            <div class="form-group">
+                <label for="email">Adresse e-mail</label>
+                <input type="email" id="email" placeholder="nom@entreprise.com">
+            </div>
 
-                <label for="emailInput">Adresse e-mail :</label>
-                <input type="email" id="emailInput" placeholder="email@exemple.com">
+            <div class="form-group">
+                <label for="telephone">Numéro de téléphone</label>
+                <input type="tel" id="telephone" placeholder="+212 X XX XX XX XX">
+            </div>
 
-                <label for="phoneInput">Numéro de téléphone :</label>
-                <input type="tel" id="phoneInput" >
+            <div class="form-group">
+                <label for="adresse">Adresse</label>
+                <input type="text" id="adresse" placeholder="Ville, Pays">
+            </div>
 
-                <label for="addressInput">Adresse :</label>
-                <input type="text" id="addressInput" placeholder="Ville, Pays">
-                
-                <label for="websiteInput">Site web :</label>
-                <input type="text" id="websiteInput" value="www.major.com">
+            <div class="form-group">
+                <label for="photo">Photo de profil</label>
+                <input type="file" id="photo" accept="image/*">
+            </div>
 
-                <label for="imageInput">Votre photo de profil :</label>
-                <input type="file" id="imageInput" accept="image/*">
-
-                <button id="downloadImageBtn" type="button">
-                    <i class="fas fa-camera"></i> Télécharger en image (PNG)
-                </button>
-            </form>
+            
         </div>
 
-        <div class="card-viewer">
-            <div id="businessCard" class="business-card">
-                <div class="card-white-part">
-                    <div class="user-info">
-                        <div class="profile-pic-container">
-                            <img id="cardProfilePic" src="https://i.imgur.com/o5u67Bw.png" alt="Photo de profil">
-                        </div>
-                        <h2 id="cardName">Nom Complet</h2>
-                        <p id="cardTitle">Profession</p>
-                        <div class="logo-container">
-                           <img src="logo2.png" alt="Logo">
-                        </div>
+        <div class="preview-section">
+            <div class="preview-label">Aperçu de votre carte</div>
+            
+            <div class="carte-visite" id="carteVisite">
+                <div class="carte-header">
+                    <div class="carte-info">
+                        <div class="carte-nom" id="previewNom">Nom Prénom</div>
+                        <div class="carte-titre" id="previewTitre">Titre Professionnel</div>
+                        <div class="ligne-elegante"></div>
+                    </div>
+                    <img class="carte-photo" id="previewPhoto" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23f7fafc' rx='12'/%3E%3Cpath d='M40 25c-6 0-11 5-11 11s5 11 11 11 11-5 11-11-5-11-11-11zm0 35c-8 0-15-4-20-10 0-7 14-11 20-11s20 4 20 11c-5 6-12 10-20 10z' fill='%23a0aec0'/%3E%3C/svg%3E">
+                </div>
+
+                <div class="carte-contact">
+                    <div class="contact-item">
+                        <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                        </svg>
+                        <span id="previewEmail">nom@entreprise.com</span>
+                    </div>
+
+                    <div class="contact-item">
+                        <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                        </svg>
+                        <span id="previewTelephone">+212 X XX XX XX XX</span>
+                    </div>
+
+                    <div class="contact-item">
+                        <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
+                        </svg>
+                        <span id="previewAdresse">Ville, Pays</span>
                     </div>
                 </div>
-                <div class="card-black-part">
-                    <div class="contact-info">
-                        <div class="info-item">
-                            <i class="fas fa-envelope"></i>
-                            <span id="cardEmail">email@exemple.com</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-phone-alt"></i>
-                            <span id="cardPhone">06 12 34 56 78</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span id="cardAddress">Adresse</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-globe"></i>
-                            <span id="cardWebsite">www.major.com</span>
-                        </div>
-                    </div>
+
+                <div class="carte-footer">
+                    <img class="carte-logo" id="previewLogo" src="logo2.png" alt="Logo">
                 </div>
             </div>
+
+            <button class="btn-telecharger" onclick="telechargerCarte()">
+                Télécharger en PNG
+            </button>
         </div>
     </div>
 
+    <script>
+        // Éléments du formulaire
+        const nomInput = document.getElementById('nom');
+        const titreInput = document.getElementById('titre');
+        const emailInput = document.getElementById('email');
+        const telephoneInput = document.getElementById('telephone');
+        const adresseInput = document.getElementById('adresse');
+        const photoInput = document.getElementById('photo');
+        const logoInput = document.getElementById('logo');
+
+        // Éléments de prévisualisation
+        const previewNom = document.getElementById('previewNom');
+        const previewTitre = document.getElementById('previewTitre');
+        const previewEmail = document.getElementById('previewEmail');
+        const previewTelephone = document.getElementById('previewTelephone');
+        const previewAdresse = document.getElementById('previewAdresse');
+        const previewPhoto = document.getElementById('previewPhoto');
+        const previewLogo = document.getElementById('previewLogo');
+
+        // Mise à jour en temps réel
+        nomInput.addEventListener('input', (e) => {
+            previewNom.textContent = e.target.value || 'Nom Prénom';
+        });
+
+        titreInput.addEventListener('input', (e) => {
+            previewTitre.textContent = e.target.value || 'Titre Professionnel';
+        });
+
+        emailInput.addEventListener('input', (e) => {
+            previewEmail.textContent = e.target.value || 'nom@entreprise.com';
+        });
+
+        telephoneInput.addEventListener('input', (e) => {
+            previewTelephone.textContent = e.target.value || '+212 X XX XX XX XX';
+        });
+
+        adresseInput.addEventListener('input', (e) => {
+            previewAdresse.textContent = e.target.value || 'Ville, Pays';
+        });
+
+        // Gestion de l'upload de photo
+        photoInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewPhoto.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Gestion de l'upload du logo
+        logoInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewLogo.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Exemple avec les données fournies
+        window.addEventListener('load', () => {
+            nomInput.value = '';
+            titreInput.value = 'Consultant Professionnel';
+            emailInput.value = 'exemple@gmail.com';
+            telephoneInput.value = '+212 xxxxxxxx';
+            adresseInput.value = '';
+
+            // Mettre à jour la prévisualisation
+            previewNom.textContent = 'Votre Prenom';
+            previewTitre.textContent = 'Designer';
+            previewEmail.textContent = 'exemple@gmail.com';
+            previewTelephone.textContent = '+212 xxxxxxxx';
+            previewAdresse.textContent = 'ville';
+        });
+
+        // Fonction de téléchargement
+        function telechargerCarte() {
+            const carte = document.getElementById('carteVisite');
+            
+            // Utiliser html2canvas pour convertir en image
+            html2canvas(carte, {
+                width: 450,
+                height: 280,
+                scale: 2,
+                backgroundColor: null,
+                useCORS: true,
+                allowTaint: true,
+                logging: false
+            }).then(canvas => {
+                // Créer un lien de téléchargement
+                const link = document.createElement('a');
+                link.download = `carte-visite-${previewNom.textContent.replace(/\s+/g, '-').toLowerCase()}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+            }).catch(err => {
+                console.log('Erreur lors de la génération:', err);
+                // Alternative simple si html2canvas n'est pas disponible
+                alert('Pour télécharger l\'image, veuillez faire un clic droit sur la carte et sélectionner "Enregistrer l\'image sous..."');
+            });
+        }
+    </script>
+
+    <!-- Inclure html2canvas depuis CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>
